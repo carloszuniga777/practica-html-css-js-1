@@ -66,6 +66,7 @@ h1{
 
 .lista-todo{
     width: 50%;
+    max-width: 35rem;
 }
 
 .tabla-todo {
