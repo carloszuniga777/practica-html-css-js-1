@@ -1,211 +1,209 @@
-
-
-
-
 class Todo{
     constructor(tarea){
         this.id = new Date().getTime()
         this.tarea = tarea
-        this.completado = false 
-    } 
+        this.completado = false
+    }
 
+    //convierte los objetos en un objeto todo
+    static fromJson(obj){
+        const tarea = new Todo(obj.tarea)
 
-    static fromJson(obj) {
-        const temp = new Todo(obj.tarea);
-        
-        temp.id         = obj.id;
-        temp.completado = obj.completado;
-        temp.creado     = obj.creado;
+        tarea.id = obj.id
+        tarea.completado = obj.completado
 
-        return temp;
-    }   
+        return tarea
+    }
 }
 
-class TodoList{
-
-    constructor(){
-        this.todos = []
+class ListTodo{
+    constructor(tarea){
+        this.todo = []
     }
 
-    nuevoTodo(todo){
-       this.todos.push(todo) 
-       this.guardarLocalStorage()
+    //crea nuevo todo y lo guarda en el localstorage
+    nuevoTodo(tarea){
+        this.todo.push(tarea)
+        this.guardarLocalStorage()
     }
 
+    //eliminar todo y lo guarda en el localstorage
     eliminarTodo(id){
-        this.todos = this.todos.filter(todo => todo.id != id)
+        this.todo = this.todo.filter(element => element.id != id)
         this.guardarLocalStorage()
     }
 
-    actualizarTodo(id, nuevaTarea){
-        this.todos = this.todos.map(todo => 
-            todo.id == id ? { ...todo, tarea: nuevaTarea} : todo
-        )
-
+    //actualiza el todo y lo guarda en el localstorage
+    actualizarTodo(tarea, id){
+        this.todo = this.todo.map(element => element.id == id ? { ...element, tarea: tarea} : element)
         this.guardarLocalStorage()
     }
 
-    
-     marcarCompletado(id) {
-        this.todos = this.todos.map(todo => 
-            todo.id == id ? { ...todo, completado: !todo.completado} : todo
-        )
 
+    marcarCompletado(id){
+        this.todo = this.todo.map(element => element.id == id ? {...element, completado: !element.completado} : element)
         this.guardarLocalStorage()
     }
-        
 
+    //guardar el localstorage
     guardarLocalStorage(){
-        localStorage.setItem('todo', JSON.stringify(this.todos))
+        localStorage.setItem('todo', JSON.stringify(this.todo))
     }
 
 
-    cargarLocalStore(){
-        this.todos = (localStorage.getItem('todo') ? JSON.parse(localStorage.getItem('todo')) : [])
-        this.todos = this.todos.map(obj => Todo.fromJson(obj)) //convierte los objetos recuperados a un objeto TODO
+    //carga los todos del localstorage y los convierte en un objeto todo
+    cargarLocalStorage(){
+        this.todo = localStorage.getItem('todo') ? JSON.parse(localStorage.getItem('todo')) : []
+        this.todo = this.todo.map(element => Todo.fromJson(element))
     }
-
 }
 
 
-//Instancia del todoList
-const todoList = new TodoList()
 
+//Se crea la lista de todos
+const listTodo = new ListTodo()
 
-let editarTodoid = null
+let editarTodoId
+
 
 
 //Submit
 const handleSubmit = (e)=>{
-    e.preventDefault()
+   e.preventDefault()
 
-    const todoText = e.target.querySelector('.formulario-input').value.trim() 
+    const tarea = e.target.querySelector('.formulario-input').value.trim()
 
-    if(!todoText) return
+    if(!tarea) return
 
-    //Se crea un todo con los atributos (id, completado, tarea)
-    const todo = new Todo(todoText)
-    
-    //Se guarda en la lista de todo
-    todoList.nuevoTodo(todo)
-    
-    //console.log(todoList.todos)
+    //Se crea el todo
+    const todo = new Todo(tarea)
 
-    //vuelve a renderizar los todoslist
-    renderizarTodosList()
+    //Se agrega a la lista
+    listTodo.nuevoTodo(todo)
 
-    //resetea el formulario
+    //console.log(listTodo)
+
+    renderizarTodos()
+
     e.target.reset()
 }
 
-//HTML de los todos
-const elementosTablaHTML = (todo)=>{
 
-    const bodyTable = document.querySelector('.lista-tabla tbody')
 
+
+//Renderizacion dinamica de los todos en el DOM
+const elementosTablaHMTL = (todo)=>{
+    let html
+
+    const tablaBody = document.querySelector('.lista-todo tbody')
 
     const tr = document.createElement('tr')
-    
+
     tr.dataset.id = todo.id
 
 
-    if(editarTodoid == todo.id){
-
-        tr.innerHTML = `<td><input type="text" class="editar-todo-input" value="${todo.tarea}"></td>
-                        <td>
-                            <button class="boton-guardar-cambios">Guardar</button>
-                            <button class="boton-cancelar">Cancelar</button>
-                        </td>`
-
+    if(editarTodoId == todo.id){
+         
+       html = `<td class="descripcion-todo"><input type='text'class='editar-todo-input' value=${todo.tarea}></td>
+               <td>
+                    <button class="boton-guardar-cambios">Guardar</button>
+                    <button class="boton-cancelar">Cancelar</button>
+               </td>` 
     }else{
-
-        tr.innerHTML = `<td class="descripcion-todo ${todo.completado ? 'completado' : ''}">${todo.tarea}</td>
-                        <td>
-                            ${!todo.completado ? '<button class="boton-actualizar">Actualizar</button>' : '' }
-                            <button class="boton-eliminar">Eliminar</button>
-                        </td>`
+        
+        html = `<td class="descripcion-todo ${todo.completado ? 'completado' : ''}">${todo.tarea}</td>
+                <td>
+                    ${!todo.completado ? '<button class="boton-actualizar">Actualizar</button>' : ''}
+                    <button class="boton-eliminar">Borrar</button>
+                </td>`
     }
 
-    bodyTable.append(tr)         
-}  
+   tr.innerHTML = html 
 
 
-//Renderizar los todos 
-const renderizarTodosList = ()=>{
+   tablaBody.append(tr)
 
-     // Limpiar tabla antes de renderizar
-     document.querySelector('.lista-tabla tbody').innerHTML = '';
-
-   //Carga los todos del localstorage
-    todoList.cargarLocalStore() 
-     
-    //renderiza los todos
-    todoList.todos.map(todo => elementosTablaHTML(todo))
-
-    
 }
 
-renderizarTodosList()
+
+
+//Carga los Todos y los renderiza en el DOM
+const renderizarTodos = ()=>{
+
+    //Limpia la tabla
+    document.querySelector('.lista-todo tbody').innerHTML = ''
+
+    //carga los todos del localstorage
+    listTodo.cargarLocalStorage()
+
+
+    //renderiza los todos
+    listTodo.todo.map((todo) => elementosTablaHMTL(todo))
+
+
+}
+
+renderizarTodos()
 
 
 
-//delegacion de eventos al contenedor padre
-document.querySelector('.lista-tabla tbody').addEventListener('click', (e)=>{
+//Eventos de la lista TODO
+document.querySelector('.lista-todo tbody').addEventListener('click', (e)=>{
 
-    const tr = e.target.closest('tr');  //Se obtiene el contenedor padre que contiene al boton  
-    const id = tr.dataset.id;          //se obtiene el id
+    //console.log(e.target)
     
-    //Boton Actualizar todo
+    const tr = e.target.closest('tr')
+    const id = tr.dataset.id
+       
+
+    //Boton actualizar todo
     if(e.target.classList.contains('boton-actualizar')){
-        editarTodoid = id;
-        renderizarTodosList();
+        editarTodoId = id
+
+        renderizarTodos()
     }
 
 
-    //Boton Eliminar todo
-    if(e.target.classList.contains('boton-eliminar')){
-        
-        todoList.eliminarTodo(id)
-
-        renderizarTodosList()
-    }
-
-
-    //Boton Guardar Cambios
-    if(e.target.classList.contains('boton-guardar-cambios')){
-
-        //obtiene la tarea
-        const input = tr.querySelector('input.editar-todo-input')
-        const nuevaTarea = input.value.trim()
-
-        
-        if(nuevaTarea){
     
-            todoList.actualizarTodo(id, nuevaTarea)
-            
-            editarTodoid = null
+    //Boton eliminar todo
+    if(e.target.classList.contains('boton-eliminar')){
+        listTodo.eliminarTodo(id)
 
-            renderizarTodosList()
-
-        }
+        renderizarTodos()
     }
 
 
-    //Boton cancelar
+    //Boton cancelar todo
     if(e.target.classList.contains('boton-cancelar')){
-        editarTodoid = null
+        
+        editarTodoId = null
 
-        renderizarTodosList()
+        renderizarTodos()
     }
 
 
-    // Tarea completado
-    if(e.target.classList.contains('descripcion-todo')){
-        todoList.marcarCompletado(id)
-
-        e.target.classList.toggle('completado')
+    //Boton guardar cambios todo
+    if(e.target.classList.contains('boton-guardar-cambios')){
+       
+        const input = document.querySelector('.editar-todo-input')
+        const tarea = input.value.trim()
+            
         
-        renderizarTodosList()
+        listTodo.actualizarTodo(tarea, id)
+
+
+        editarTodoId = null
+
+        renderizarTodos()
+    }
+
+
+    //Marcar como todo completado
+    if(e.target.classList.contains('descripcion-todo')){
+        
+        listTodo.marcarCompletado(id)
+
+        renderizarTodos()
     }
 
 

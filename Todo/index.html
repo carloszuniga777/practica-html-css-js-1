@@ -3,47 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
     <link rel="stylesheet" href="style.css">
+    <title>Todo</title>
 </head>
 <body>
-
-    <main class="main">
-        <div class="todo">
-            <h1 class="titulo">Todo App</h1>
-            <section class="formulario-contenedor-todo">
-                <form onsubmit="handleSubmit(event)" class="formulario-todo">
-                    <input type="text" placeholder="Agregar todo" class="formulario-input">
-                    <input type="submit" value="agregar" class="formulario-buton">
+   
+    <main>
+        <div class="contenedor">
+            <div class="contendor-titulo">
+                <h1>TODO APP</h1>
+            </div>
+            <div class="contenedor-formulario">
+                <form onsubmit="handleSubmit(event)" class="formulario">
+                    <input type="text" placeholder="Agregar tarea" class="formulario-input">
+                    <input type="submit" value="Agregar" class="boton-agregar">
                 </form>
-            </section>
-    
-            <section class="lista-contenedor-todo">
+            </div>
+            <div class="contenedor-lista-todo">
                 <div class="lista-todo">
-                    <table class="lista-tabla">
+                    <table class="tabla-todo">
                         <thead>
                             <tr>
-                                <th>Todo</th>
+                                <th>Tarea</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- <tr>
-                                <td class="descripcion-todo">Accion 1</td>
+                                <td class="descripcion-todo">Tarea 1</td>
                                 <td>
                                     <button class="boton-actualizar">Actualizar</button>
-                                    <button class="boton-eliminar">Eliminar</button>
+                                    <button class="boton-eliminar">Borrar</button>
                                 </td>
                             </tr> -->
                         </tbody>
                     </table>
+
                 </div>
-            </section>
+            </div>
         </div>
     </main>
 
-
-<script src="/app.js" defer></script>
+    <script src="app.js" defer></script>
 
 </body>
 </html>
