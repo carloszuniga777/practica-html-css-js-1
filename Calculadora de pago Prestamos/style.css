@@ -136,6 +136,7 @@ input, select{
     width: 100%;
     border-spacing: 0;
     box-shadow: 3px 4px 7px 3px #ccc;
+    overflow-x: auto; /* Habilita scroll horizontal */
 }
 
 .tabla th,
@@ -164,4 +165,10 @@ input, select{
     color: #eb2130;
     font-weight: 600;
     margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px){
+    .contenedor-inputs{
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
