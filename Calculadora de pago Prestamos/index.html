@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Prestamos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+    <main class="main">
+
+
+        <h1 class="titulo">Calculadora de Plan de Pagos de Préstamos</h1>
+        <p class="subtitulo">Ingrese los detalles del préstamo para generar el plan de amortización</p>
+        
+        <form onsubmit="handlesubmit(event)" class="formulario">
+
+                <div class="contenedor-inputs">
+                    <label for="nombre">
+                        <span>Nombre Cliente:</span>
+                        <input type="text" placeholder="Nombre" name="nombre" id="nombre">
+                        <span class="error-message" id="nombre-error"></span>
+                    </label>
+            
+                    <label for="prestamo">
+                        <span>Monto de Prestamo:</span>
+                        <input type="number" placeholder="Ingresar el monto ej: 10000" name="prestamo" id="prestamo">
+                        <span class="error-message" id="prestamo-error"></span>
+                    </label>
+            
+                    <label for="tipo-prestamo">
+                        <span>Tipo de Prestamo:</span>
+                        <select name="tipo-prestamo" id="tipo-prestamo">
+                            <option value="">Seleccionar</option>
+                            <option value="Vivienda">Vivienda</option>
+                            <option value="Consumo">Consumo</option>
+                            <option value="Vehiculo">Vehiculo</option>
+                        </select>
+                        <span class="error-message" id="tipo-prestamo-error"></span>
+                    </label>
+            
+                    <label for="Plazo">
+                        <span>Plazo (meses):</span>
+                        <input type="number" name="Plazo" id="Plazo" placeholder="Ingresar los meses de plazo ej: 5">
+                        <span class="descripcion-plazo" >(Maximo 60 meses)</span>
+                        <span class="error-message" id="Plazo-error"></span>
+                    </label>
+            
+            
+                    <label for="Tasa">
+                        <span>Tasa de interes anual (%):</span>
+                        <input type="number" name="Tasa" id="Tasa" placeholder="Tasa de interes anual" step="0.01">
+                        <span class="error-message" id="Tasa-error"></span>
+                    </label>
+            
+                    <label for="fecha">
+                        <span>Fecha de Inicio:</span>
+                        <input type="date" name="fecha" id="fecha">
+                        <span class="error-message" id="fecha-error"></span>
+                    </label>
+
+                </div>
+
+                <input type="submit" value="Generar Plan de Pagos" class="boton-formulario">
+        </form>
+
+        <div id="resultado-tabla"></div>
+
+    </main>
+
+    <script src="/Calculadora de pago Prestamos/app.js" defer></script>
+</body>
+</html>

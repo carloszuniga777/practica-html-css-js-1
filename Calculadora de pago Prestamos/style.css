@@ -1,0 +1,167 @@
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*{
+    min-width: 0;  /*Evita que los elementos de grid y flex se desborden de su contenedor.*/
+}
+
+/*Define el tamano base de los rem, 1rem = 16px */
+html {
+    font-size: 16px; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.main{
+   display: grid;
+   grid-template-rows: auto auto 1fr; 
+   gap: 0.4rem;
+   max-width: 50rem;
+   margin: 0 auto;
+}
+
+.titulo{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #eb2130;
+}
+
+.subtitulo{
+    margin-top: 0.5rem;
+    color: #505050;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.formulario{
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+
+.contenedor-inputs{
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 0.7rem;
+    margin-right: 0.7rem;
+    gap: 1rem;
+}
+
+label{
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: #2c2e2d;
+}
+
+input, select{
+    border: 0.1rem solid #ccc;
+    border-radius: 1rem;
+    padding: 0.4rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.6rem;
+    display: block;
+    margin-top: 0.1rem;
+    text-align: center;
+    height: 0.8rem; /* Espacio reservado para el mensaje */
+}
+
+.descripcion-plazo{
+    font-size: 0.7rem;
+    text-align: center;
+    color: #505050;
+}
+
+.boton-formulario{
+    background-color: #eb2130;
+    color: white;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+}
+
+
+.boton-formulario:hover{
+    background-color: #505050;
+}
+
+
+
+.contenedor-inputs input:hover,
+.contenedor-inputs select:hover
+{
+    border-color: #b3d4fc;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.contenedor-resultado-tabla{
+    margin-top: 3rem;
+}
+
+.titulo-resultado{
+    color: #eb2130;
+    font-size: 1rem;
+}
+
+.resumen{
+    background-color: #f3f3f3;
+    padding: 1rem;
+    border-radius: 1rem;
+    line-height: 2;
+    font-size: 0.9rem;
+}
+
+.negrita{
+    font-weight: 600
+    ;
+}
+
+
+/*Estilo de la tabla*/
+.tabla{
+    margin-top: 2rem;
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+    box-shadow: 3px 4px 7px 3px #ccc;
+}
+
+.tabla th,
+.tabla td{
+    padding: 0.6rem 0.3rem;
+}
+
+.tabla th{
+    font-size: 0.75rem;
+    text-align: center;
+    background-color: #eb2130;
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.tabla td{
+    text-align: center;
+}
+
+.tabla tr:nth-child(even) {
+    background-color: #f3636d1e;
+}
+
+.titulo-tabla{
+    color: #eb2130;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
